@@ -1,0 +1,78 @@
+canvas {
+    /*https://stackoverflow.com/questions/9526719/ipad-canvas-flickers-when-tapped*/
+    -webkit-tap-highlight-color: transparent;
+}
+
+.wheel-life-container {
+    position: relative;
+}
+#wheel-life {
+    margin: auto;
+    display: block;
+    height: 473px;
+    width: 825px;
+    border-radius: 5px;
+    background: #F2F2E5;
+    border: 1px solid #D4DADE;
+
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.lifemap-init#wheel-life {
+    background-color: #ffffff;
+    border-radius: 7px;
+    border: 1px solid #c1d8de;
+}
+#wheel-life-result {
+    position: relative;
+    margin: 30px auto;
+    text-align: center;
+}
+#wheel-life-result .result {
+    text-align: left;
+}
+#wheel-life-result .share .arrow {
+    position: absolute;
+    top: -60px;
+    left: 15%;
+}
+#wheel-life-result .share .text-on {
+    cursor:  pointer;
+    display: none;
+}
+#wheel-life-result .share .text-off {
+    cursor:  pointer;
+}
+#wheel-life-result .result .arrow {
+    position: absolute;
+    top: 95px;
+    right: 15%;
+}
+#button-change-areas {
+    position: absolute;
+    top: 3px;
+    left: 40px;
+    opacity: 0.5;
+}
+#button-clear-areas {
+    position: absolute;
+    top: 27px;
+    left: 44px;
+    opacity: 0.5;
+    display: none;
+}
+#button-download-wheel {
+    position: absolute;
+    top: 15px;
+    right: 50px;
+    display: none;
+}
+.user-wheel-life {
+    text-align: center;
+}
+.user-wheel-life img.wheel-life {
+    border-radius: 20px;
+    max-height: 473px;
+    max-width: 900px;
+}

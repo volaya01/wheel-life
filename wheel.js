@@ -262,7 +262,6 @@ function getWheelLifeInstance(settings)
                     } else {
                         wheelLife.ctx.textAlign = "right";
                     }
-                    // if (gradBegin > 80 && gradBegin < 120) wheelLife.ctx.textAlign = "center";
 
                     var textX = Math.cos(gradBegin * Math.PI / 180) * (wheelLife.circleRadius + textMargin);
                     var textY = Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius + textMargin);
@@ -315,10 +314,6 @@ function getWheelLifeInstance(settings)
 
                     // Длина дуги на которой будет расположен текст
                     var arcLength = Math.PI * (wheelLife.circleRadius + 13) * wheelLife.areaGradWidth / 180;
-
-                    // ctx.beginPath();
-                    // ctx.moveTo(0, 0);
-
                     var gradBeginPath = i * wheelLife.areaGradWidth - 180;
                     if (wheelLife.isZvezdaKovaleva || wheelLife.beginGradShift == 'star') gradBeginPath -= wheelLife.areaGradWidth / 2 - 90; //  || wheelLife.areas.length == 4
                     if (wheelLife.beginGradShift != 'star' && wheelLife.beginGradShift) gradBeginPath += parseInt(wheelLife.beginGradShift);
@@ -329,7 +324,7 @@ function getWheelLifeInstance(settings)
                         if (j > 480) break;
                         var aX = Math.round(Math.cos(j * Math.PI / 180) * (wheelLife.circleRadius + 13) * 10) / 10;
                         var aY = Math.round(Math.sin(j * Math.PI / 180) * (wheelLife.circleRadius + 13) * 10) / 10;
-                        // ctx.lineTo(aX, aY);
+                        
                         arcPath.push(aX);
                         arcPath.push(aY);
                         j = j + 2;
@@ -348,19 +343,6 @@ function getWheelLifeInstance(settings)
                     wheelLife.ctx.textBaseline = "middle";
                     wheelLife.ctx.shadowColor = 'rgba(0,0,0,0)';
                     wheelLife.ctx.strokeStyle = 'rgba(0,0,0,0)';
-                    // wheelLife.ctx.strokeStyle =  "white";
-                    // wheelLife.ctx.lineWidth = 3;
-                    // wheelLife.ctx.strokeStyle='#' + wheelLife.areas[i][1];
-                    // wheelLife.ctx.stroke();
-                    // wheelLife.ctx.strokeStyle='rgba(0,0,0,0)';
-                    // wheelLife.ctx.textOverflow = "ellipsis";
-                    // wheelLife.ctx.ctx.textJustify = true;
-                    // wheelLife.ctx.textStrokeMin = 40;
-
-                    // wheelLife.ctx.shadowColor = "#faebd7";
-                    // wheelLife.ctx.shadowOffsetX = -1;
-                    // wheelLife.ctx.shadowOffsetY = -1;
-                    // wheelLife.ctx.textPath(areaName, arcPath);
                     wheelLife.ctx.shadowColor = wheelLife.textShadowColor;
                     wheelLife.ctx.shadowOffsetX = 1;
                     wheelLife.ctx.shadowOffsetY = 1;
@@ -380,9 +362,6 @@ function getWheelLifeInstance(settings)
                             break;
                         }
                     }
-                    wheelLife.ctx.textPath(areaName, arcPath);
-
-                    // wheelLife.ctx.restore();
                 }
             }
 
@@ -496,8 +475,6 @@ function getWheelLifeInstance(settings)
 
                         // Stop demo play
                         clearInterval(wheelLife.demoInterval);
-
-                        //localEvent('wheel-life', 'start-fill', 'click', 1, 1);
                     }
                 }
 
@@ -554,13 +531,6 @@ function getWheelLifeInstance(settings)
 
                 if (!wheelLife.isForTemplate) wheelLife.ctx.fill();
 
-                // if (i == 3) {
-                // var img2 = new Image();
-                // img2.src = "/img/pic/1.png";
-                // var pattern = wheelLife.ctx.createPattern(img2, "repeat");
-                // wheelLife.ctx.fillStyle = pattern;
-                // }
-
                 wheelLife.ctx.lineWidth = 3;
                 wheelLife.ctx.strokeStyle = '#f2f8fc';
                 if (wheelLife.isForTemplate && wheelLife.templateVariant == 2) wheelLife.ctx.strokeStyle = '#555';
@@ -607,13 +577,6 @@ function getWheelLifeInstance(settings)
                 wheelLife.ctx.restore();
             }
 
-            // Draw areas circle around
-            // wheelLife.ctx.beginPath();
-            // wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, wheelLife.circleRadius, 0, 360 * Math.PI / 180);
-            // wheelLife.ctx.lineWidth = 1;
-            // wheelLife.ctx.globalAlpha = 0.4;
-            // wheelLife.ctx.strokeStyle = '#D4DADE';
-            // wheelLife.ctx.stroke();
             wheelLife.ctx.save();
 
 
@@ -671,24 +634,17 @@ function getWheelLifeInstance(settings)
                 try {
                     wheelLife.ctx.drawImage(wheelLife.images['pointer'], e.offsetX, e.offsetY);
                 } catch (e) {
-                    // Uncaught InvalidStateError: Failed to execute 'drawImage' on 'CanvasRenderingContext2D': The HTMLImageElement provided is in the 'broken' state.
-
                     // Stop demo play
                     clearInterval(wheelLife.demoInterval);
                 }
             }
 
 
-//          $("#log1").text("X: " + x + " Y: " + y);
             if (currentArea > 0) {
-//            $("#log2").text("Сфера: " + currentArea + '; ' + wheelLife.currentAreaLevel);
                 $(wheelLife.canvas).css('cursor', 'pointer');
             } else {
-//            $("#log2").text("Сфера: вне круга");
                 $(wheelLife.canvas).css('cursor', 'default');
             }
-
-            // $('#log').html();
 
             if (countAreaClicked) {
                 var hint = $('.wheel-life-hint');
@@ -701,6 +657,12 @@ function getWheelLifeInstance(settings)
 
                 wheelLife.drawTemplate();
                 wheelLife.onMouseMove({offsetX: -1, offsetY: -1, type: 'mousemove'}); // Simulate click
+            }
+
+            if(isClicked && typeof itemHasClicked === "function"){
+                var item = areas[currentArea -1];
+                if(item != undefined)
+                    itemHasClicked(item);
             }
         },
         isMouseInThatSector: function (gradBegin, x, y, area) {
