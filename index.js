@@ -1,17 +1,17 @@
 var areas = [];
     
-areas.push(['Salud', 'B1B8C9', 11, 11]);
-areas.push(['Dinero', 'B1B8C9', 11, 11]);
-areas.push(['Comunicación', 'B1B8C9', 11, 11]);
-areas.push(['Trabajo', 'B1B8C9', 11, 11]);
-areas.push(['Autoconocimiento', 'B1B8C9', 11, 11]);
-areas.push(['Salud', 'B1B8C9', 11, 11]);
-areas.push(['Dinero', 'B1B8C9', 11, 11]);
-areas.push(['Comunicación', 'B1B8C9', 11, 11]);
-areas.push(['Trabajo', 'B1B8C9', 11, 11]);
-areas.push(['Autoconocimiento', 'B1B8C9', 11, 11]);
-areas.push(['Trabajo', 'B1B8C9', 11, 11]);
-areas.push(['Autoconocimiento', 'B1B8C9', 11, 11]);
+areas.push(['Area 1', 'B1B8C9', 11, 11]);
+areas.push(['Area 2', 'B1B8C9', 11, 11]);
+areas.push(['Area 3', 'B1B8C9', 11, 11]);
+areas.push(['Area 4', 'B1B8C9', 11, 11]);
+areas.push(['Area 5', 'B1B8C9', 11, 11]);
+areas.push(['Area 6', 'B1B8C9', 11, 11]);
+areas.push(['Area 7', 'B1B8C9', 11, 11]);
+areas.push(['Area 8', 'B1B8C9', 11, 11]);
+areas.push(['Area 9', 'B1B8C9', 11, 11]);
+areas.push(['Area 10', 'B1B8C9', 11, 11]);
+areas.push(['Area 11', 'B1B8C9', 11, 11]);
+areas.push(['Area 12', 'B1B8C9', 11, 11]);
 
 // Чтобы при обновлении не показывалось сообщение
 var alreadyFilledMessage = '';
@@ -21,9 +21,7 @@ setTimeout(function () {
 
 
 var onFillTriggered = false;
-
-function onFillCircle(areas)
-{
+function onFillCircle(areas) {
     // Запретим перестраивать колесо жизни
     if (onFillTriggered) {
         if (alreadyFilledMessage) {
@@ -40,18 +38,6 @@ function onFillCircle(areas)
         values.push(areas[i][2]);
     }
 
-    $.post('/lifemap_callback/update_options', { area: 'areas', options: options, values: values, type: 'lifemapWheel'}, function(response) {
-
-        if (response != 'OK') {
-            sticker({ note: response});
-
-            return false;
-        }
-    });
-
-    if (!onFillTriggered) {
-        localEvent('user', 'lifemap-wheel-filled', '', '0', 1);
-    }
     onFillTriggered = true;
 
     var wheel = [
@@ -72,31 +58,15 @@ function onFillCircle(areas)
         wheel[0] = temp;
     }
 
-    // $('#wheel-plan li').remove();
     $('#wheel-plan li:not(.stick)').remove();
-
-
-    $.each(wheel, function(index){
-        var sphereName = wheel[index].substr(wheel[index].indexOf('-') + 1);
-
-        $('#wheel-plan').append('<li>'
-            + (index == 0 ? 'Второй разберём сферу – ' : '')
-            + (index == 1 ? 'Затем – ' : '')
-            + (index == 2 ? 'Далее – ' : '')
-            + (index == 3 ? 'И на последок – ' : '')
-
-            // + (index == 0 ? 'Сначала разберём сферу – ' : '')
-            // + (index == 1 ? 'Второй разберём сферу – ' : '')
-            // + (index == 2 ? 'Затем – ' : '')
-            // + (index == 3 ? 'Далее – ' : '')
-            // + (index == 4 ? 'И на последок – ' : '')
-            + $('#wheel-' + sphereName).html()
-            + '</li>');
-    });
 
     $('.tool-is').show();
 
-    scrollToBottom($('.wheel-life-container'), 250);
+    console.log(areas);
+}
+
+function itemHasClicked(item){
+    console.log(item);
 }
 
 var settings = { areas: areas, display: 'star', beginGradShift: 90, onFill: onFillCircle};
