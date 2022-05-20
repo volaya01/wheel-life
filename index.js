@@ -74,4 +74,36 @@ function itemHasClicked(item){
     }, 3000);
 }
 
+function iListeners(){
+    $("#whatsapp").on("click", function(e){
+        var imageURL = wheelLife.canvas.toDataURL();
+        window.open('https://api.whatsapp.com/send?text='+encodeURIComponent(imageURL));
+    });
+
+    $("#facebook").on("click", function(e){
+        var imageURL = wheelLife.canvas.toDataURL();
+        sendImageToIMGUR(imageURL);
+        //window.open('https://www.facebook.com/sharer.php?u='+encodeURIComponent(imageURL)+'&t='+encodeURIComponent("Title"),'sharer','toolbar=0,status=0,width=626,height=436');
+    });
+}
+
+function sendImageToIMGUR(base64){
+    $.ajax({
+        type: "POST",
+        url: "https://thingproxy.freeboard.io/fetch/https://api.imgur.com/3/image",
+        data: {
+            image: base64.replace("data:image/png;base64,", "")
+        },
+        headers: new Headers({
+            'Content-Type': 'text/plain',
+            'Authorization': 'Client-ID f0e05600765dc59'
+        }),      
+        success: function(data){
+            console.log(data);
+        },
+    });
+
+}
+
 var settings = { areas: areas, display: 'star', beginGradShift: 90, onFill: onFillCircle};
+iListeners();
