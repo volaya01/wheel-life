@@ -1,0 +1,9 @@
+1. Ajustar encarpetación
+2. Verificar estilos de los mockups para colores
+3. Reemplazar los textos de los botones por iconos
+4. Implementación de función para compartir por redes sociales
+5. Ver si existe algo mejor que el snackbar, pues el manejo no convence mucho
+6. Agregar en el svg la fecha actual
+7. Cuadrar estilo de los nombres de las areas pues se deben ver en forma circular
+8. Tratar de limpiar el código
+9. Cuando esta en movil no se ven los textos de las areas

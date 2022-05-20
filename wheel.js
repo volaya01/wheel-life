@@ -151,10 +151,7 @@ function getWheelLifeInstance(settings)
                 $('#button-clear-areas').css('top', '1px').css('left', '7px').css('font-size', '11px');
             }
 
-            // Запуск демо, курсор катается по кругу
-            if (! wheelLife.isDrawSimple && !wheelLife.isForTemplate && !wheelLife.onFillTriggered) {
-                wheelLife.demoInterval = setInterval(wheelLife.demo, 5000);
-            }
+            
         },
 
         preloadImage: function(name, url) {
@@ -768,28 +765,7 @@ function getWheelLifeInstance(settings)
             $('#wheel-life-result .result').show();
             $('#button-download-wheel').show();
             $('#button-clear-areas').show();
-
-            // Сильные и слабые сферы
-            var max = 0, min = 10;
-            var good = [], bad = [];
-
-            for (var i = 0; i < wheelLife.areas.length; i++) {
-                if (min > wheelLife.areas[i][2]) min = wheelLife.areas[i][2];
-                if (max < wheelLife.areas[i][2]) max = wheelLife.areas[i][2];
-            }
-
-            for (i = 0; i < wheelLife.areas.length; i++) {
-                if (wheelLife.areas[i][2] == min || wheelLife.areas[i][2] == min) bad.push(wheelLife.areas[i][0]);
-                if (wheelLife.areas[i][2] == max || wheelLife.areas[i][2] == max - 1) good.push(wheelLife.areas[i][0]);
-            }
-
-            $('#areas-good').html(good.join(', '));
-            if (min == max || min + 1 == max) {
-                bad = [_('Всё ровненько :)')];
-                $('#recommendation-for-bad').hide();
-            }
-            $('#areas-bad').html(bad.join(', '));
-
+            
             return false;
         },
         resize: function () {

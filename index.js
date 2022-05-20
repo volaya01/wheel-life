@@ -1,17 +1,17 @@
 var areas = [];
     
-areas.push(['Area 1', 'B1B8C9', 11, 11]);
-areas.push(['Area 2', 'B1B8C9', 11, 11]);
-areas.push(['Area 3', 'B1B8C9', 11, 11]);
-areas.push(['Area 4', 'B1B8C9', 11, 11]);
-areas.push(['Area 5', 'B1B8C9', 11, 11]);
-areas.push(['Area 6', 'B1B8C9', 11, 11]);
-areas.push(['Area 7', 'B1B8C9', 11, 11]);
-areas.push(['Area 8', 'B1B8C9', 11, 11]);
-areas.push(['Area 9', 'B1B8C9', 11, 11]);
-areas.push(['Area 10', 'B1B8C9', 11, 11]);
-areas.push(['Area 11', 'B1B8C9', 11, 11]);
-areas.push(['Area 12', 'B1B8C9', 11, 11]);
+areas.push(['Area 1', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 1"]);
+areas.push(['Area 2', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 2"]);
+areas.push(['Area 3', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 3"]);
+areas.push(['Area 4', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 4"]);
+areas.push(['Area 5', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 5"]);
+areas.push(['Area 6', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 6"]);
+areas.push(['Area 7', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 7"]);
+areas.push(['Area 8', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 8"]);
+areas.push(['Area 9', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 9"]);
+areas.push(['Area 10', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 10"]);
+areas.push(['Area 11', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 11"]);
+areas.push(['Area 12', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 12"]);
 
 // Чтобы при обновлении не показывалось сообщение
 var alreadyFilledMessage = '';
@@ -24,11 +24,11 @@ var onFillTriggered = false;
 function onFillCircle(areas) {
     // Запретим перестраивать колесо жизни
     if (onFillTriggered) {
-        if (alreadyFilledMessage) {
-            sticker({ note: alreadyFilledMessage});
+        if (alreadyFilledMessage) {            
             alreadyFilledMessage = ''; // Чтобы не видеть больше
         }
-        if (!LOCAL) return false;
+        
+        return false;
     }
 
     var options = [], values = [];
@@ -66,7 +66,12 @@ function onFillCircle(areas) {
 }
 
 function itemHasClicked(item){
-    console.log(item);
+    $("#snackbar").text(item[item.length - 1]);
+    $("#snackbar").addClass("show");
+
+    setTimeout(function(){ 
+        $("#snackbar").removeClass("show");
+    }, 3000);
 }
 
 var settings = { areas: areas, display: 'star', beginGradShift: 90, onFill: onFillCircle};

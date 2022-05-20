@@ -1,5 +1,4 @@
 canvas {
-    /*https://stackoverflow.com/questions/9526719/ipad-canvas-flickers-when-tapped*/
     -webkit-tap-highlight-color: transparent;
 }
 
