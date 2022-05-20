@@ -23,7 +23,7 @@ window.addEventListener('load', function() {
     });
 
 
-    $('#button-download-wheel a').click(function(){
+    $('#button-download-wheel i').click(function(){
         return wheelLife.downloadImage();
     });
 
@@ -344,10 +344,10 @@ function getWheelLifeInstance(settings)
                     wheelLife.ctx.shadowOffsetX = 1;
                     wheelLife.ctx.shadowOffsetY = 1;
 
-                    var arcFontSize = 25;
-                    if (areaName.length >= 10) arcFontSize = 22;
-                    if (areaName.length >= 15 && areas.length > 5) arcFontSize = 16;
-                    if (areaName.length >= 30 && areas.length > 5) arcFontSize = 12;
+                    var arcFontSize = 15;
+                    if (areaName.length >= 10) arcFontSize = 13;
+                    if (areaName.length >= 10 && areas.length > 3) arcFontSize = 10;
+                    if (areaName.length >= 15 && areas.length > 3) arcFontSize = 8;
                     wheelLife.ctx.font = arcFontSize + "px oswald, COPPERPLATE, verdana";
 
                     for (var l = 1; l < 20; l++) {
@@ -359,6 +359,8 @@ function getWheelLifeInstance(settings)
                             break;
                         }
                     }
+
+                    wheelLife.ctx.textPath(areaName, arcPath);
                 }
             }
 
@@ -366,40 +368,13 @@ function getWheelLifeInstance(settings)
 
             wheelLife.ctx.save();
 
-            if (countAreaClicked == wheelLife.areas.length && ! wheelLife.isDrawSimple && wheelLife.display == 'normal' && !wheelLife.isForTemplate) {
-                // Рисуем дату и логотип, только после завершения выбора сфер
-
-                // Не выводим на мелких экранах
-                // Draw logo (resized for better quality) & site name
-                var domain = document.domain;
-                if (LOCAL) domain = 'goal-life.com';
-                domain = domain.charAt(0).toUpperCase() + domain.slice(1);
-
-                wheelLife.ctx.font = '14px oswald, COPPERPLATE, verdana';
-                wheelLife.ctx.textAlign = 'right';
-                wheelLife.ctx.fillStyle = '#999';
-                wheelLife.ctx.fillText(domain, wheelLife.width - 13, wheelLife.height - 13);
-
-                // logo
-                try {
-                    if (typeof wheelLife.images['logo'] != 'undefined') {
-                        wheelLife.ctx.drawImage(wheelLife.images['logo'], wheelLife.width - wheelLife.ctx.measureText(domain).width - 38, wheelLife.height - 29, 50 / 2.5, 50 / 2.5);
-                    }
-                } catch (e) {
-                    logMsg('wheel', e.toString());
-                }
-
-                // Скрываем logo
-                var logoElement = $('#wheel-logo');
-                if (logoElement.length) logoElement.hide();
-
-                // Draw date
-                wheelLife.ctx.textAlign = 'left';
-                wheelLife.ctx.font = '10px oswald, COPPERPLATE, verdana';
-                wheelLife.ctx.fillStyle = '#ccc';
-                wheelLife.ctx.fillText(wheelLife.todayStr, 13, wheelLife.height - 13);
-            }
-
+            // Draw date
+            wheelLife.ctx.font = 'bold 13px oswald, COPPERPLATE, verdana';
+            wheelLife.ctx.fillStyle = '#B1B8C9';
+            if(screen.width <= 650)
+                wheelLife.ctx.fillText(wheelLife.todayStr, 13, wheelLife.height - 300);
+            else
+                wheelLife.ctx.fillText(wheelLife.todayStr, 13, wheelLife.height - 420);
             wheelLife.ctx.restore();
         },
 

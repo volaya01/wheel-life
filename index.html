@@ -7,18 +7,19 @@
   <link rel="stylesheet" href="main_flat.css">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="snackbar.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 	<div id="wheel-life-container">
 		<canvas id="wheel-life" class="areas-init" width="1646" height="942" style="cursor: default;"></canvas>
     <div id="snackbar">Some text some message..</div>
-		<div id="button-clear-areas" style="display: block;">
-      <a class="button tiny link secondary radius" href="#" target="_blank"> <span class="icon-remove ico-lg"></span> &nbsp;Limpiar</a> 
+		<div id="button-clear-areas" style="display: none;">
+      <i class="material-icons page-icon">autorenew</i>
     </div>
-		<div id="button-download-wheel" style="display: block;">
-      <a class="button tiny success radius" href="#" rel="noopener nofollow" target="_blank"> <span class="icon-download4 ico-x2"></span>Descargar Imagen</a>
+		<div id="button-download-wheel" style="display: none;">
+      <i class="material-icons page-icon">file_download</i>
     </div>
-		<div id="wheel-life-result" class="" style="display: block;">
+		<div id="wheel-life-result" class="" style="display: none;">
       <div class="share"> 
         <span>Compartir usando</span>
         <aside class="networks"> 
@@ -38,4 +39,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript" src="index.js"></script>
 <script type="text/javascript" src="wheel.js"></script>
+<script type="text/javascript" src="ctxtextpath.js"></script>
 </html>
