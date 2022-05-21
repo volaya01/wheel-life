@@ -10,8 +10,6 @@ window.addEventListener('load', function() {
     function windowOnResize()
     {
         wheelLife.resize();
-
-        // Перерисовываем
         wheelLife.reDrawAll();
     }
 
@@ -33,7 +31,6 @@ window.addEventListener('load', function() {
             areas[i][3] = 11;
         }
 
-        // Перерисовываем
         wheelLife.reDrawAll();
 
         $(this).hide();
@@ -43,31 +40,8 @@ window.addEventListener('load', function() {
         return false;
     });
 
-    $('#share-switch').change(function(){
-
-        if ($(this).attr('checked') == 'checked') {
-            $(this).removeAttr('checked');
-            $(this).parent().find('.text-off').show();
-            $(this).parent().find('.text-on').hide();
-
-            shareUrl = shareUrlDefault;
-        } else {
-            $(this).attr('checked', 'checked');
-            $(this).parent().find('.text-off').hide();
-            $(this).parent().find('.text-on').show();
-
-            // Сохраняем картинку на сервер
-            if (! $(this).attr('data-wheel-saved')) {
-                wheelLife.saveImage();
-                $(this).attr('data-wheel-saved', 'true');
-            }
-
-            shareUrl = location.protocol + '//' + location.hostname + '/tool/wheel_life?img_id=' + tempImgName;
-        }
-    });
+    wheelLife.reDrawAll();
 });
-
-
 
 /**
  * @param settings
@@ -87,7 +61,7 @@ function getWheelLifeInstance(settings)
         onFillTriggered: false,
         areaGradWidth: 45,
         areaLevelWidth: 0,
-        currentAreaLevel: -1,  // Уровень в сфере [1-10]     -1=вне сферы    0 приравнивается 1
+        currentAreaLevel: -1,
         widthInit: 0,
         heightInit: 0,
         lastClientWidth: 0,
@@ -95,15 +69,10 @@ function getWheelLifeInstance(settings)
         height: 0,
         circleRadius: 0,
         todayStr: '',
-        images: [],
-        imagesToLoad: 0,
         scaleCoefX: 2,
         scaleCoefY: 2,
-        isZvezdaKovaleva: false, // Рисуем звезду благополучия Ковалёва
+        isZvezdaKovaleva: false,
         beginGradShift: false,
-        demoInterval: null,
-        demoFrameNum: 0,
-        demoFramesInterval: null,
         areaNamesFormat: 'circle',
         textShadowColor: '#808285',
         isForTemplate: false,
@@ -112,7 +81,7 @@ function getWheelLifeInstance(settings)
         draw: function (canvasId) {
             wheelLife.prepare(canvasId);
 
-            if (! wheelLife.isDrawSimple) {
+            if (!wheelLife.isDrawSimple) {
                 $(wheelLife.canvas).bind('mousemove', wheelLife.onMouseMove);
                 $(wheelLife.canvas).bind('click touchstart touchmove', wheelLife.onMouseMove);
             }
@@ -126,58 +95,24 @@ function getWheelLifeInstance(settings)
             wheelLife.heightInit = $(wheelLife.canvas).height();
 
             wheelLife.resize();
-
-            if (!wheelLife.areas.length) {
-                sticker({note: 'Добавьте сферы жизни. <a href="/tool/life_areas" target="_blank" class="button tiny s3d no-margin">Добавить</a>'});
-                wheelLife.areas.push(['Empty', '444', 11, 11]);
-            }
-
             wheelLife.areaGradWidth = 360 / wheelLife.areas.length;
-
-            // Текущая дата
+            
             var today = new Date();
             wheelLife.todayStr = today.getDate() + '.' + (today.getMonth() + 1 < 10 ? '0' : '') + (today.getMonth() + 1) + '.' + today.getFullYear();
 
-            // Preload all images
-            wheelLife.imagesToLoad++;
-            wheelLife.imagesToLoad++;
-            wheelLife.preloadImage('logo', '/img/main/logo/50.png');
-            wheelLife.preloadImage('pointer', '/img/pic/pointer.png');
-
             if (wheelLife.scaleCoefX > 2.4) {
-                // Отодвигаем боковые кнопки на телефоне
                 $('#button-download-wheel').css('top', '1px').css('right', '2px');
                 $('#button-download-wheel a').css('padding', '5px').css('font-size', '11px');
                 $('#button-clear-areas').css('top', '1px').css('left', '7px').css('font-size', '11px');
             }
-
-            
-        },
-
-        preloadImage: function(name, url) {
-            var img = new Image();
-            img.src = url;
-            img.onload = wheelLife.onAllImagesLoaded();
-            wheelLife.images[name] = img;
         },
 
         reDrawAll: function() {
-            // Перерисовываем
-
             wheelLife.drawTemplate();
             wheelLife.onMouseMove({offsetX: -1, offsetY: -1, type: 'click'}); // Simulate click
         },
 
-        onAllImagesLoaded: function () {
-            wheelLife.imagesToLoad--;
-
-            // Прорисовываем первый раз экран
-            if (wheelLife.imagesToLoad < 1) {
-                wheelLife.reDrawAll();
-            }
-        },
-
-         getOffsetPosition: function(evt, parent) {
+        getOffsetPosition: function(evt, parent) {
             var position = {
                 x: (evt.originalEvent && 'touches' in evt.originalEvent) ? evt.originalEvent.touches[0].pageX : evt.clientX,
                 y: (evt.originalEvent && 'touches' in evt.originalEvent) ? evt.originalEvent.touches[0].pageY : evt.clientY
@@ -195,15 +130,11 @@ function getWheelLifeInstance(settings)
 
         drawTemplate: function()
         {
-            // Рисуем всё кроме самого колеса
             wheelLife.ctx.save();
-
-            // Чистим всё
             wheelLife.setBackgroundStyle();
             if (wheelLife.isForTemplate) wheelLife.ctx.fillStyle = 'rgba(0,0,0,0)';
             wheelLife.ctx.rect(0, 0, wheelLife.width, wheelLife.height);
             wheelLife.ctx.fill();
-
 
             // Reset current transformation matrix to the identity matrix
             wheelLife.ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -211,7 +142,6 @@ function getWheelLifeInstance(settings)
             wheelLife.ctx.translate(wheelLife.width / 2, wheelLife.height / 2);
 
             // Draw areas names
-
             if (wheelLife.areaNamesFormat == 'linear')
             {
                 var fontSize = 15;
@@ -236,14 +166,10 @@ function getWheelLifeInstance(settings)
                 wheelLife.ctx.shadowBlur = 0;
             }
 
-            // Сколько сфер уже задано
             var countAreaClicked = 0;
-
-
-            // Обходим список всех сфер
             for (var i = 0; i < wheelLife.areas.length; i++) {
 
-                if (wheelLife.areas[i][2] < 11) countAreaClicked++; // Значение задано
+                if (wheelLife.areas[i][2] < 11) countAreaClicked++;
 
                 var gradBegin = i * wheelLife.areaGradWidth + wheelLife.areaGradWidth / 2 - 180;
                 if (wheelLife.isZvezdaKovaleva || wheelLife.beginGradShift == 'star') gradBegin -= wheelLife.areaGradWidth / 2 - 90;
@@ -263,7 +189,6 @@ function getWheelLifeInstance(settings)
                     var textX = Math.cos(gradBegin * Math.PI / 180) * (wheelLife.circleRadius + textMargin);
                     var textY = Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius + textMargin);
 
-                    // Если тект отображается вне видимого экрана
                     if (textY > wheelLife.height / 2 - 3) {
                         textX += (textX > 0 ? 12 : -12);
                         textY = wheelLife.height / 2 - 3;
@@ -277,11 +202,9 @@ function getWheelLifeInstance(settings)
 
                     var fontSizeCurrent = fontSize;
 
-                    if (areaName.length > splitIndex) fontSizeCurrent -= 2; // Для длинных строк, уменьшаем шрифт
+                    if (areaName.length > splitIndex) fontSizeCurrent -= 2;
 
                     wheelLife.ctx.font = fontSizeCurrent + 'px Helvetica, verdana';
-
-                    // Белая тень сверху, если попадает поверх колеса сектора
                     wheelLife.ctx.shadowColor = "#faebd7";
                     wheelLife.ctx.shadowOffsetX = -1;
                     wheelLife.ctx.shadowOffsetY = -1;
@@ -291,9 +214,7 @@ function getWheelLifeInstance(settings)
                     wheelLife.ctx.shadowOffsetY = 1;
                     wheelLife.ctx.fillText(areaName.substr(0, splitIndex).trim(), textX, textY);
 
-
                     if (areaName.length > splitIndex) {
-                        // Вторая строка
                         wheelLife.ctx.shadowColor = "#faebd7";
                         wheelLife.ctx.shadowOffsetX = -1;
                         wheelLife.ctx.shadowOffsetY = -1;
@@ -308,15 +229,12 @@ function getWheelLifeInstance(settings)
                 if (wheelLife.areaNamesFormat == 'circle') {
 
                     var arcPath = [];
-
-                    // Длина дуги на которой будет расположен текст
                     var arcLength = Math.PI * (wheelLife.circleRadius + 13) * wheelLife.areaGradWidth / 180;
                     var gradBeginPath = i * wheelLife.areaGradWidth - 180;
                     if (wheelLife.isZvezdaKovaleva || wheelLife.beginGradShift == 'star') gradBeginPath -= wheelLife.areaGradWidth / 2 - 90; //  || wheelLife.areas.length == 4
                     if (wheelLife.beginGradShift != 'star' && wheelLife.beginGradShift) gradBeginPath += parseInt(wheelLife.beginGradShift);
 
                     for (var j = gradBeginPath; j <= gradBeginPath + wheelLife.areaGradWidth; j++) {
-                        // break;
                         if (j < -480) break;
                         if (j > 480) break;
                         var aX = Math.round(Math.cos(j * Math.PI / 180) * (wheelLife.circleRadius + 13) * 10) / 10;
@@ -351,7 +269,6 @@ function getWheelLifeInstance(settings)
                     wheelLife.ctx.font = arcFontSize + "px oswald, COPPERPLATE, verdana";
 
                     for (var l = 1; l < 20; l++) {
-                        // Уменьшаем шрифт, чтобы он помещался
                         if (wheelLife.ctx.measureText(areaName).width > arcLength / 1.15) {
                             arcFontSize -= 1;
                             wheelLife.ctx.font = arcFontSize + "px oswald, COPPERPLATE, verdana";
@@ -371,10 +288,12 @@ function getWheelLifeInstance(settings)
             // Draw date
             wheelLife.ctx.font = 'bold 13px oswald, COPPERPLATE, verdana';
             wheelLife.ctx.fillStyle = '#B1B8C9';
+            
             if(screen.width <= 650)
                 wheelLife.ctx.fillText(wheelLife.todayStr, 13, wheelLife.height - 300);
             else
                 wheelLife.ctx.fillText(wheelLife.todayStr, 13, wheelLife.height - 420);
+
             wheelLife.ctx.restore();
         },
 
@@ -400,17 +319,10 @@ function getWheelLifeInstance(settings)
             var isClicked = false;
             if (' click touchstart touchmove'.indexOf(e.type) > 0) isClicked = true;
 
-            var currentArea = 0; // В какой сфере сейчас мышка
+            var currentArea = 0;
             var countAreaClicked = 0;
             wheelLife.currentAreaLevel = -1;
 
-            if (e.type == 'mousemove' && wheelLife.demoFrameNum > 0) {
-                // Останавливаем текущий цикл демо
-                clearInterval(wheelLife.demoFramesInterval);
-                wheelLife.demoFrameNum = 0;
-            }
-
-            // Чистим область колеса
             wheelLife.ctx.save();
             wheelLife.ctx.beginPath();
             wheelLife.ctx.fillStyle = '#000';
@@ -419,13 +331,11 @@ function getWheelLifeInstance(settings)
             wheelLife.ctx.fill();
             wheelLife.ctx.restore();
 
-
             var x = e.offsetX - wheelLife.width / 2;
             var y = wheelLife.height / 2 - e.offsetY;
 
             // Draw areas
             for (var i = 0; i < wheelLife.areas.length; i++) {
-                // half doughnut
                 wheelLife.ctx.beginPath();
                 var gradBegin = i * wheelLife.areaGradWidth - 180;
                 if (wheelLife.isZvezdaKovaleva || wheelLife.beginGradShift == 'star') gradBegin -= wheelLife.areaGradWidth/2 - 90; //  || wheelLife.areas.length == 4
@@ -444,25 +354,18 @@ function getWheelLifeInstance(settings)
 
                     if (isClicked) {
                         wheelLife.areas[i][2] = wheelLife.currentAreaLevel;
-
-                        // Stop demo play
-                        clearInterval(wheelLife.demoInterval);
                     }
                 }
 
-                // Сколько сфер задано
-                if (wheelLife.areas[i][2] < 11) countAreaClicked++; // Значение задано
-
+                if (wheelLife.areas[i][2] < 11) countAreaClicked++;
 
                 // Fill area background
                 wheelLife.ctx.beginPath();
-                wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, wheelLife.circleRadius, radBegin, radEnd, false); // outer (filled)
-                wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, 0, radBegin, radEnd, true); // outer (unfills it)
-                // Верняя левая точка, чтобы замкнуть линию
+                wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, wheelLife.circleRadius, radBegin, radEnd, false);
+                wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, 0, radBegin, radEnd, true);
                 wheelLife.ctx.lineTo(wheelLife.width / 2 + wheelLife.circleRadius * Math.cos(radBegin), wheelLife.height / 2 + wheelLife.circleRadius * Math.sin(radBegin));
 
                 wheelLife.ctx.save();
-
 
                 if (!wheelLife.isZvezdaKovaleva) {
                     wheelLife.ctx.fillStyle = '#' + wheelLife.areas[i][1];
@@ -486,10 +389,8 @@ function getWheelLifeInstance(settings)
 
                 // Fill area
                 wheelLife.ctx.globalAlpha = 1;
-                wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, currentRadius, radBegin, radEnd, false); // outer (filled)
-                wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, 0, radBegin, radEnd, true); // outer (unfills it)
-
-                // Верняя левая точка, чтобы замкнуть линию
+                wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, currentRadius, radBegin, radEnd, false);
+                wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, 0, radBegin, radEnd, true);
                 wheelLife.ctx.lineTo(wheelLife.width / 2 + wheelLife.circleRadius * Math.cos(radBegin), wheelLife.height / 2 + wheelLife.circleRadius * Math.sin(radBegin));
 
                 try {
@@ -512,7 +413,6 @@ function getWheelLifeInstance(settings)
             }
 
             if (wheelLife.isForTemplate) for (i = 1; i <= 10; i++) {
-                // Рисуем круги делений на колесе, для шаблонов
                 wheelLife.ctx.save();
                 wheelLife.ctx.beginPath();
                 wheelLife.ctx.strokeStyle = '#f2f8fc';
@@ -531,10 +431,7 @@ function getWheelLifeInstance(settings)
                 wheelLife.ctx.restore();
             }
 
-
-            // Draw star
             if (wheelLife.isZvezdaKovaleva) {
-                // Рисуем Здвезду
                 wheelLife.ctx.save();
                 wheelLife.ctx.beginPath();
                 wheelLife.ctx.globalAlpha = 0.75;
@@ -551,14 +448,11 @@ function getWheelLifeInstance(settings)
 
             wheelLife.ctx.save();
 
-
             // Reset current transformation matrix to the identity matrix
             wheelLife.ctx.setTransform(1, 0, 0, 1, 0, 0);
             wheelLife.ctx.scale(2, 2);
-
             wheelLife.ctx.translate(wheelLife.width / 2, wheelLife.height / 2);
 
-            // Цифровое значение выбранных секторов
             for (i = 0; i < wheelLife.areas.length; i++)
             {
                 areaLevel = wheelLife.areas[i][2];
@@ -592,25 +486,12 @@ function getWheelLifeInstance(settings)
             }
 
             wheelLife.ctx.restore();
-
-            // Чистим область колеса
             wheelLife.ctx.beginPath();
             wheelLife.setBackgroundStyle();
             wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, wheelLife.circleRadius, 0, 2 * Math.PI);
             wheelLife.ctx.globalCompositeOperation = 'destination-over';
             wheelLife.ctx.fill();
             wheelLife.ctx.globalCompositeOperation = 'source-over';
-
-            // Draw demo pointer
-            if (e.type == 'demo' && wheelLife.demoFrameNum > 0) {
-                try {
-                    wheelLife.ctx.drawImage(wheelLife.images['pointer'], e.offsetX, e.offsetY);
-                } catch (e) {
-                    // Stop demo play
-                    clearInterval(wheelLife.demoInterval);
-                }
-            }
-
 
             if (currentArea > 0) {
                 $(wheelLife.canvas).css('cursor', 'pointer');
@@ -623,12 +504,11 @@ function getWheelLifeInstance(settings)
                 if (hint.length) hint.hide();
             }
 
-            // Все сферы выбраны - показываем результат
             if (countAreaClicked == wheelLife.areas.length && isClicked) {
                 wheelLife.result();
 
                 wheelLife.drawTemplate();
-                wheelLife.onMouseMove({offsetX: -1, offsetY: -1, type: 'mousemove'}); // Simulate click
+                wheelLife.onMouseMove({offsetX: -1, offsetY: -1, type: 'mousemove'});
             }
 
             if(isClicked && typeof itemHasClicked === "function"){
@@ -638,24 +518,18 @@ function getWheelLifeInstance(settings)
             }
         },
         isMouseInThatSector: function (gradBegin, x, y, area) {
-            // Начало сектора - в самом верху
             gradBegin += 90;
-            // Конец сектора
             var gradEnd = Math.round(gradBegin + wheelLife.areaGradWidth);
-            // Текущий радиус круга, на котором находится курсор
             var currentRadius = Math.sqrt(Math.pow(x - 0, 2) + Math.pow(y - 0, 2));
             if (currentRadius < 0) currentRadius = 0;
 
-            // Текущий угол в котором находится курсор
             var currentGrad = Math.round(Math.asin(x / currentRadius) / Math.PI * 180);
 
-            // Поправки на 0-360 градусов
             if (y < 0 && x > 0) currentGrad = 180 - currentGrad;
             if (y < 0 && x < 0) currentGrad = 180 - currentGrad;
             if (x < 0 && y > 0) currentGrad = 360 + currentGrad;
-            if (gradBegin < 0 && x < 0 && y > 0) currentGrad = currentGrad - 360; // Когда первая сфера смещена против часовой. Для звезды Ковалёва.
+            if (gradBegin < 0 && x < 0 && y > 0) currentGrad = currentGrad - 360;
 
-            // Курсор не попадает в текущий сектор или радиус мышки больше чем круг
             if (currentGrad < gradBegin || currentGrad >= gradEnd || currentRadius > wheelLife.circleRadius) {
                 return false;
             }
@@ -685,53 +559,12 @@ function getWheelLifeInstance(settings)
                 }
             );
         },
-        demo: function () {
-            if (wheelLife.demoFramesInterval) {
-                // already play demo -- если окно потеряет фокус, то браузер начнет быстро прорисовывать аннимацию накладывая несколько
-                return false;
-            }
-            wheelLife.demoFrameNum = 0;
-            wheelLife.demoFramesInterval = setInterval(wheelLife.demoFrame, 30);
-        },
-        demoFrame: function () {
-            wheelLife.demoFrameNum += 1;
-            var frame = wheelLife.demoFrameNum;
-            if (frame > 30) frame = 61 - wheelLife.demoFrameNum;
-
-            // За пределами колеса нет перерисовки – не позволяем тупа попасть
-            var initX = wheelLife.width / 2;
-            if (wheelLife.scaleCoefX >= 2.5) initX -= wheelLife.circleRadius / 2;
-
-            // Simulate mouse move
-            wheelLife.onMouseMove({
-                offsetX: initX + wheelLife.circleRadius / 4 + frame * (wheelLife.circleRadius < 100 ? 1.2 : 3),
-                offsetY: wheelLife.height / 2 + (wheelLife.demoFrameNum > 30 ? 20 : -20),
-                type: 'demo'
-            });
-
-            if (wheelLife.demoFrameNum > 60) {
-                // Stop demo current play
-                clearInterval(wheelLife.demoFramesInterval);
-                wheelLife.demoFramesInterval = null;
-                wheelLife.demoFrameNum = 0;
-
-                wheelLife.reDrawAll();
-            }
-        },
         result: function () {
-
-            // log('result');
-            //localEvent('wheel-life', 'result', 'show', 1, 1);
             $('#wheel-life-result').show().removeClass('hide');
             $('#wheel-life-hint').hide();
 
             wheelLife.onFillTriggered = true;
             wheelLife.onFill(wheelLife.areas);
-
-            // Stop demo play
-            clearInterval(wheelLife.demoInterval);
-            clearInterval(wheelLife.demoFramesInterval);
-
 
             if (wheelLife.display == 'square') {
                 return false;
@@ -744,15 +577,11 @@ function getWheelLifeInstance(settings)
             return false;
         },
         resize: function () {
-            // Сжимаем отображаемый вид, чтобы улучшить качество - это такой трюк
-
             if (wheelLife.lastClientWidth == document.body.clientWidth) {
-                // Изменилась только высота на телефоне, скорее всего появилась навигационная строка вверху или внизу (не нужно перерисовывать)
                 return false;
             }
-            wheelLife.lastClientWidth = document.body.clientWidth;
 
-            // Изменяем высоту на мелких экранах, чтобы колесо было больше
+            wheelLife.lastClientWidth = document.body.clientWidth;
             var smallCoef = 1;
             if (document.body.clientWidth < 600) smallCoef = 1.3;
             if (document.body.clientWidth < 500) smallCoef = 1.5;
@@ -762,8 +591,7 @@ function getWheelLifeInstance(settings)
             }
 
             if (document.body.clientWidth < wheelLife.widthInit) {
-                // Для меньших экранов - делаем зум
-                var marginWidth = 10; // По 5px отступа
+                var marginWidth = 10;
                 $(wheelLife.canvas).css('width', document.body.clientWidth - marginWidth);
                 var height = wheelLife.heightInit * (document.body.clientWidth - marginWidth) / wheelLife.widthInit * smallCoef;
                 $(wheelLife.canvas).css('height', height);
@@ -776,8 +604,6 @@ function getWheelLifeInstance(settings)
             wheelLife.scaleCoefY = parseFloat(wheelLife.heightInit / $(wheelLife.canvas).height());
             wheelLife.ctx.setTransform(1, 0, 0, 1, 0, 0);
             wheelLife.ctx.scale(2, 2);
-
-            // Константы для колеса
             wheelLife.width = $(wheelLife.canvas).width();
             wheelLife.height = $(wheelLife.canvas).height();
 
