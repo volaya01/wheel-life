@@ -1,3 +1,2 @@
-1. Verificar estilos de los mockups para colores
-2. Implementación de función para compartir por redes sociales
-3. Ver si existe algo mejor que el snackbar, pues el manejo no convence mucho
+1. Implementación de función para compartir por redes sociales
+2. Ver si existe algo mejor que el snackbar, pues el manejo no convence mucho

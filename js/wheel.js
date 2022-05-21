@@ -32,8 +32,6 @@ window.addEventListener('load', function() {
         }
 
         wheelLife.reDrawAll();
-
-        $(this).hide();
         $('#wheel-life-result').hide();
         $('#button-download-wheel').hide();
 
@@ -98,7 +96,7 @@ function getWheelLifeInstance(settings)
             wheelLife.areaGradWidth = 360 / wheelLife.areas.length;
             
             var today = new Date();
-            wheelLife.todayStr = today.getDate() + '.' + (today.getMonth() + 1 < 10 ? '0' : '') + (today.getMonth() + 1) + '.' + today.getFullYear();
+            wheelLife.todayStr = today.getDate() + '/' + (today.getMonth() + 1 < 10 ? '0' : '') + (today.getMonth() + 1) + '/' + today.getFullYear();
 
             if (wheelLife.scaleCoefX > 2.4) {
                 $('#button-download-wheel').css('top', '1px').css('right', '2px');
@@ -204,7 +202,7 @@ function getWheelLifeInstance(settings)
 
                     if (areaName.length > splitIndex) fontSizeCurrent -= 2;
 
-                    wheelLife.ctx.font = fontSizeCurrent + 'px Helvetica, verdana';
+                    wheelLife.ctx.font = fontSizeCurrent + 'px SofiaProRegular';
                     wheelLife.ctx.shadowColor = "#faebd7";
                     wheelLife.ctx.shadowOffsetX = -1;
                     wheelLife.ctx.shadowOffsetY = -1;
@@ -266,12 +264,12 @@ function getWheelLifeInstance(settings)
                     if (areaName.length >= 10) arcFontSize = 13;
                     if (areaName.length >= 10 && areas.length > 3) arcFontSize = 10;
                     if (areaName.length >= 15 && areas.length > 3) arcFontSize = 8;
-                    wheelLife.ctx.font = arcFontSize + "px oswald, COPPERPLATE, verdana";
+                    wheelLife.ctx.font = arcFontSize + "px SofiaProRegular";
 
                     for (var l = 1; l < 20; l++) {
                         if (wheelLife.ctx.measureText(areaName).width > arcLength / 1.15) {
                             arcFontSize -= 1;
-                            wheelLife.ctx.font = arcFontSize + "px oswald, COPPERPLATE, verdana";
+                            wheelLife.ctx.font = arcFontSize + "px SofiaProRegular";
                         } else {
                             break;
                         }
@@ -286,13 +284,14 @@ function getWheelLifeInstance(settings)
             wheelLife.ctx.save();
 
             // Draw date
-            wheelLife.ctx.font = 'bold 13px oswald, COPPERPLATE, verdana';
+            if(screen.width <= 650)
+                wheelLife.ctx.font = 'bold 13px SofiaProRegular';
+            else 
+                wheelLife.ctx.font = 'bold 20px SofiaProRegular';
+
             wheelLife.ctx.fillStyle = '#B1B8C9';
             
-            if(screen.width <= 650)
-                wheelLife.ctx.fillText(wheelLife.todayStr, 13, wheelLife.height - 300);
-            else
-                wheelLife.ctx.fillText(wheelLife.todayStr, 13, wheelLife.height - 420);
+            wheelLife.ctx.fillText(wheelLife.todayStr, 13, wheelLife.height - 13);
 
             wheelLife.ctx.restore();
         },
@@ -423,7 +422,7 @@ function getWheelLifeInstance(settings)
                 wheelLife.ctx.stroke();
 
                 if (wheelLife.templateVariant == 2) {
-                    wheelLife.ctx.font = '10px oswald, COPPERPLATE, verdana';
+                    wheelLife.ctx.font = '10px SofiaProRegular';
                     wheelLife.ctx.textAlign = 'right';
                     wheelLife.ctx.fillStyle = '#777';
                     wheelLife.ctx.fillText(i, wheelLife.width / 2 + i * wheelLife.circleRadius / 10 - 3, wheelLife.height / 2 - 3);
@@ -465,16 +464,16 @@ function getWheelLifeInstance(settings)
                     if (wheelLife.beginGradShift != 'star' && wheelLife.beginGradShift) gradBegin += parseInt(wheelLife.beginGradShift);
 
                     wheelLife.ctx.fillStyle = '#fff';
-                    wheelLife.ctx.font = '12px verdana';
+                    wheelLife.ctx.font = '12px SofiaProRegular';
                     wheelLife.ctx.globalAlpha = 0.5;
                     if (wheelLife.isZvezdaKovaleva) wheelLife.ctx.globalAlpha = 0.9;
 
                     if (wheelLife.display == 'square'){
-                        wheelLife.ctx.font = '19px verdana';
+                        wheelLife.ctx.font = '19px SofiaProRegular';
                         wheelLife.ctx.globalAlpha = 0.7;
                     }
                     if (wheelLife.display == 'star'){
-                        wheelLife.ctx.font = '14px verdana';
+                        wheelLife.ctx.font = '14px SofiaProRegular';
                         wheelLife.ctx.globalAlpha = 0.7;
                     }
                     wheelLife.ctx.shadowColor = "rgba(0, 0, 0, 0)";
@@ -572,8 +571,7 @@ function getWheelLifeInstance(settings)
 
             $('#wheel-life-result .result').show();
             $('#button-download-wheel').show();
-            $('#button-clear-areas').show();
-            
+        
             return false;
         },
         resize: function () {

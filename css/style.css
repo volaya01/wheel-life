@@ -20,13 +20,11 @@
     position: absolute;
     top: 15px;
     left: 22%;
-    display: none;
 }
 #button-download-wheel {
     position: absolute;
     top: 15px;
     right: 22%;
-    display: none;
 }
 
 .page-icon {
@@ -53,6 +51,16 @@ aside.networks .network {
 @media screen and (max-width: 350px) {
     aside.networks .network { margin: 0 4px;}
 }
+
+@media screen and (max-width: 500px) {
+    #button-clear-areas {
+        left: 5%;
+    }
+    #button-download-wheel {
+        right: 5%;
+    }
+}
+
 aside.networks .network img {
     max-height: 70px;
 }
@@ -70,4 +78,14 @@ aside.networks .network .counter {
     border: 1px solid #CCCCCC;
     border-radius: 20px;
     text-align: center;
+}
+
+.sofiaPro {
+    font-family: SofiaProRegular;
+    color: #B1B8C9;
+    font-style: bold;
+}
+
+.hide {
+    display: none;
 }

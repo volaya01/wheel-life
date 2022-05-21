@@ -1,0 +1,10 @@
+@font-face {
+    font-family: SofiaProRegular;
+    src: url("../font/Sofia_Pro_Regular_Az.otf") format("opentype");
+}
+
+@font-face {
+    font-family: SofiaProRegular;
+    font-weight: bold;
+    src: url("../font/Sofia_Pro_Semi_Bold_Az.otf") format("opentype");
+}
