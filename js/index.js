@@ -1,17 +1,17 @@
 var areas = [];
     
 areas.push(['Spirituality', 'B1B8C9', 11, 11, "Do you feel connected to a power greater than yourself?"]);
-areas.push(['Healing', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 2"]);
-areas.push(['Lifestyle', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 3"]);
-areas.push(['Relationships', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 4"]);
-areas.push(['Mental health', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 5"]);
-areas.push(['Growth', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 6"]);
-areas.push(['Career', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 7"]);
-areas.push(['Intuition', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 8"]);
-areas.push(['Gratitude', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 9"]);
-areas.push(['Movement', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 10"]);
-areas.push(['Creativity', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 11"]);
-areas.push(['Abundance', 'B1B8C9', 11, 11, "Esto es una prueba del texto del area 12"]);
+areas.push(['Healing', 'B1B8C9', 11, 11, "Lorem Ipsum"]);
+areas.push(['Lifestyle', 'B1B8C9', 11, 11, "Lorem Ipsum"]);
+areas.push(['Relationships', 'B1B8C9', 11, 11, "Lorem Ipsum"]);
+areas.push(['Mental health', 'B1B8C9', 11, 11, "Lorem Ipsum"]);
+areas.push(['Growth', 'B1B8C9', 11, 11, "Lorem Ipsum"]);
+areas.push(['Career', 'B1B8C9', 11, 11, "Lorem Ipsum"]);
+areas.push(['Intuition', 'B1B8C9', 11, 11, "Lorem Ipsum"]);
+areas.push(['Gratitude', 'B1B8C9', 11, 11, "Lorem Ipsum"]);
+areas.push(['Movement', 'B1B8C9', 11, 11, "Lorem Ipsum"]);
+areas.push(['Creativity', 'B1B8C9', 11, 11, "Lorem Ipsum"]);
+areas.push(['Abundance', 'B1B8C9', 11, 11, "Lorem Ipsum"]);
 
 var settings = { areas: areas, beginGradShift: 90 };
 
