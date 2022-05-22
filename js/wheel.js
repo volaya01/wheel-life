@@ -29,6 +29,7 @@ window.addEventListener('load', function() {
         for (var i = 0; i < areas.length; i++) {
             areas[i][2] = 11;
             areas[i][3] = 11;
+            $("#snackbar").addClass("hide");
         }
 
         wheelLife.reDrawAll();
