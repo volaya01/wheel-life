@@ -32,31 +32,24 @@ function iListeners(){
 
 function sendImageToIMGUR(red){
     var base64 = wheelLife.canvas.toDataURL();
-    base64.replace("data:image/png;base64,", "");
+    base64 = base64.replace("data:image/png;base64,", "");
+    var url= "https://api.imgur.com/3/image";
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Authorization", "Client-ID ad2218cdbb087d7");
+    xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        const jsonRes = JSON.parse(this.response);
+        var imageURL = jsonRes['data']['link'];
+        if(red == "whatsapp")
+            window.open('https://api.whatsapp.com/send?text='+encodeURIComponent(imageURL),'sharer','toolbar=0,status=0,width=626,height=436');
+        else
+             window.open('https://www.facebook.com/sharer.php?u='+encodeURIComponent(imageURL)+'&t='+encodeURIComponent("Wheel Life"),'sharer','toolbar=0,status=0,width=626,height=436');
+        }
+    };
 
-    $.ajax({
-        type: "POST",
-        url: "https://api.imgur.com/3/image",
-        data: {
-            image: base64
-        },
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': 'Client-ID ad2218cdbb087d7'
-            
-        }),      
-        success: function(data){
-            if(data.data.status == 200){
-                var imageURL = data.data.link;
-
-                if(red == "whatsapp")
-                    window.open('https://api.whatsapp.com/send?text='+encodeURIComponent(imageURL),'sharer','toolbar=0,status=0,width=626,height=436');
-                else
-                    window.open('https://www.facebook.com/sharer.php?u='+encodeURIComponent(imageURL)+'&t='+encodeURIComponent("Wheel Life"),'sharer','toolbar=0,status=0,width=626,height=436');
-            }
-        },
-    });
-
+    xhr.send(base64);
 }
 
 iListeners();

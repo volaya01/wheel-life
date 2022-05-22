@@ -259,6 +259,7 @@ function getWheelLifeInstance(settings)
                     wheelLife.ctx.shadowColor = wheelLife.textShadowColor;
                     wheelLife.ctx.shadowOffsetX = 1;
                     wheelLife.ctx.shadowOffsetY = 1;
+                    wheelLife.ctx.font = "px SofiaProRegular";
 
                     var arcFontSize = 15;
                     if (areaName.length >= 10) arcFontSize = 13;
