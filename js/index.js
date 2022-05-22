@@ -18,10 +18,6 @@ var settings = { areas: areas, beginGradShift: 90 };
 function itemHasClicked(item){
     $("#snackbar").html(item[0] + "<br>" + item[item.length - 1]);
     $("#snackbar").addClass("show");
-
-    setTimeout(function(){ 
-        $("#snackbar").removeClass("show");
-    }, 3000);
 }
 
 function iListeners(){
@@ -45,8 +41,9 @@ function sendImageToIMGUR(red){
             image: base64
         },
         headers: new Headers({
-            'Content-Type': 'text/plain',
+            'Content-Type': 'application/json',
             'Authorization': 'Client-ID ad2218cdbb087d7'
+            
         }),      
         success: function(data){
             if(data.data.status == 200){

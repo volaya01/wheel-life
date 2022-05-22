@@ -571,6 +571,10 @@ function getWheelLifeInstance(settings)
 
             $('#wheel-life-result .result').show();
             $('#button-download-wheel').show();
+             setTimeout(function(){ 
+                $("#snackbar").addClass("hide");
+            }, 3000);
+            
         
             return false;
         },

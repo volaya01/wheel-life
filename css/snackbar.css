@@ -1,14 +1,15 @@
 #snackbar {
   visibility: hidden;
-  margin-left: -15%;
+  margin: auto;
+  margin-top: 3%;
   background-color: #B1B8C9;
   color: #fff;
   text-align: center;
   border-radius: 20px;
   padding: 16px;
-  position: fixed;
+  top: 15%;
+  width: 30%;
   z-index: 1;
-  left: 50%;
   bottom: 30px;
   font-size: 17px;
   font-family: SofiaProRegular;
@@ -42,9 +43,6 @@
 
 @media screen and (max-width: 500px) {
   #snackbar {
-    width: 100%;
-    left: 0;
-    margin-left: 0px;
-    padding: 5px;
+    width: 80%;
   }
 }
