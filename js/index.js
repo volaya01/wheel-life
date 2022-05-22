@@ -17,6 +17,7 @@ var settings = { areas: areas, beginGradShift: 90 };
 
 function itemHasClicked(item){
     $("#snackbar").html(item[0] + "<br>" + item[item.length - 1]);
+    $("#snackbar").removeClass("hide");
     $("#snackbar").addClass("show");
 }
 
