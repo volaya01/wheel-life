@@ -1,2 +1,1 @@
-1. Implementación de función para compartir por redes sociales
-2. Ver si existe algo mejor que el snackbar, pues el manejo no convence mucho
+
