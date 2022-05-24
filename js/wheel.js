@@ -25,7 +25,7 @@ window.addEventListener('load', function() {
         return wheelLife.downloadImage();
     });
 
-    $('#button-clear-areas').click(function(){
+    $('#button-clear-areas, .text-button').click(function(){
         for (var i = 0; i < areas.length; i++) {
             areas[i][2] = 11;
             areas[i][3] = 11;
@@ -68,8 +68,8 @@ function getWheelLifeInstance(settings)
         height: 0,
         circleRadius: 0,
         todayStr: '',
-        scaleCoefX: 2,
-        scaleCoefY: 2,
+        scaleCoefX: 1,
+        scaleCoefY: 1,
         isZvezdaKovaleva: false,
         beginGradShift: false,
         areaNamesFormat: 'circle',
@@ -170,7 +170,7 @@ function getWheelLifeInstance(settings)
 
                 if (wheelLife.areas[i][2] < 11) countAreaClicked++;
 
-                var gradBegin = i * wheelLife.areaGradWidth + wheelLife.areaGradWidth / 2 - 180;
+                var gradBegin = 0; //i * wheelLife.areaGradWidth + wheelLife.areaGradWidth / 2 - 180;
                 if (wheelLife.isZvezdaKovaleva || wheelLife.beginGradShift == 'star') gradBegin -= wheelLife.areaGradWidth / 2 - 90;
                 if (wheelLife.beginGradShift != 'star' && wheelLife.beginGradShift) gradBegin += parseInt(wheelLife.beginGradShift);
 
@@ -286,15 +286,19 @@ function getWheelLifeInstance(settings)
             wheelLife.ctx.save();
 
             // Draw date
-            if(screen.width <= 650)
+            var heightPos = wheelLife.height - 450;
+            if(screen.width <= 650){
                 wheelLife.ctx.font = 'bold 13px SofiaProRegular';
-            else 
+                heightPos = 13;
+            } else {
                 wheelLife.ctx.font = 'bold 20px SofiaProRegular';
+            }
 
             wheelLife.ctx.fillStyle = '#B1B8C9';
+            wheelLife.ctx.textAlign = "center";
             
-            wheelLife.ctx.fillText(wheelLife.todayStr, 13, wheelLife.height - 13);
-
+            wheelLife.ctx.fillText(wheelLife.todayStr, wheelLife.width / 2, heightPos);
+            
             wheelLife.ctx.restore();
         },
 
@@ -481,6 +485,8 @@ function getWheelLifeInstance(settings)
                     wheelLife.ctx.shadowColor = "rgba(0, 0, 0, 0)";
                     var textAreaLevel = areaLevel - 1;
                     if (textAreaLevel < 2) textAreaLevel = areaLevel + 1;
+
+                    //Add levelArea
                     wheelLife.ctx.fillText(areaLevel, Math.cos(gradBegin * Math.PI / 180) * (textAreaLevel * wheelLife.areaLevelWidth), Math.sin(gradBegin * Math.PI / 180) * (textAreaLevel * wheelLife.areaLevelWidth));
                     wheelLife.ctx.restore();
                 }

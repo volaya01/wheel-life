@@ -48,6 +48,13 @@ aside.networks .network {
     cursor: pointer;
 }
 
+.text-button{
+    position: absolute;
+    top: 1px;
+    left: 26%;
+    cursor:pointer;
+}
+
 @media screen and (max-width: 350px) {
     aside.networks .network { margin: 0 4px;}
 }
@@ -58,6 +65,9 @@ aside.networks .network {
     }
     #button-download-wheel {
         right: 5%;
+    }
+    .text-button{
+        left: 12%;
     }
 }
 
