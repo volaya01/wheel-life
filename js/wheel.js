@@ -25,7 +25,7 @@ window.addEventListener('load', function() {
         return wheelLife.downloadImage();
     });
 
-    $('#button-clear-areas, .text-button').click(function(){
+    $('#button-clear-areas, .text-button, .border-reload').click(function(){
         for (var i = 0; i < areas.length; i++) {
             areas[i][2] = 11;
             areas[i][3] = 11;
@@ -286,18 +286,18 @@ function getWheelLifeInstance(settings)
             wheelLife.ctx.save();
 
             // Draw date
-            var heightPos = wheelLife.height - 450;
-            if(screen.width <= 650){
-                wheelLife.ctx.font = 'bold 13px SofiaProRegular';
-                heightPos = 13;
-            } else {
-                wheelLife.ctx.font = 'bold 20px SofiaProRegular';
-            }
+            // var heightPos = wheelLife.height - 450;
+            // if(screen.width <= 650){
+            //     wheelLife.ctx.font = 'bold 13px SofiaProRegular';
+            //     heightPos = 13;
+            // } else {
+            //     wheelLife.ctx.font = 'bold 20px SofiaProRegular';
+            // }
 
-            wheelLife.ctx.fillStyle = '#B1B8C9';
-            wheelLife.ctx.textAlign = "center";
+            // wheelLife.ctx.fillStyle = '#B1B8C9';
+            // wheelLife.ctx.textAlign = "center";
             
-            wheelLife.ctx.fillText(wheelLife.todayStr, wheelLife.width / 2, heightPos);
+            // wheelLife.ctx.fillText(wheelLife.todayStr, wheelLife.width / 2, heightPos);
             
             wheelLife.ctx.restore();
         },

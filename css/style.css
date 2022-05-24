@@ -55,6 +55,17 @@ aside.networks .network {
     cursor:pointer;
 }
 
+.border-reload{
+    position: absolute;
+    border: groove;
+    border-radius: 5px;
+    top: 11px;
+    left: 24%;
+    padding: 6px;
+    width: 4%;
+    cursor:pointer;
+}
+
 @media screen and (max-width: 350px) {
     aside.networks .network { margin: 0 4px;}
 }
@@ -68,6 +79,10 @@ aside.networks .network {
     }
     .text-button{
         left: 12%;
+    }
+    .border-reload{
+        left: 5%;
+        width: 15%;
     }
 }
 
